@@ -144,9 +144,6 @@ details p{font-size:13px;color:var(--muted);max-width:65ch}
   <div class="grid">
     <label class="full">我的位置（緯度, 經度）
       <div class="inrow"><input id="geoPos" type="text" inputmode="decimal" placeholder="例：24.80470, 120.97140" spellcheck="false"><button type="button" class="btn ghost" id="geoGPS">用 GPS</button></div></label>
-    <label class="full">目標座標（選填，填了就不用指南針）
-      <input id="geoTgt" type="text" inputmode="decimal" placeholder="在 Google Maps 長按目標，複製座標貼上" spellcheck="false"></label>
-    <div class="full derived" id="geoTgtInfo" hidden></div>
     <label>射擊方位角 (°，北 0、東 90)<input id="geoBrg" type="number" inputmode="decimal" step="1" placeholder="指南針讀數"></label>
     <div class="full" id="cmpBox" hidden>
       <div class="inrow"><button type="button" class="btn ghost" id="cmpGo" style="flex:1">用手機指南針</button><button type="button" class="btn" id="cmpLock" style="flex:1" hidden>鎖定這個方位</button></div>
@@ -155,7 +152,7 @@ details p{font-size:13px;color:var(--muted);max-width:65ch}
     <label>磁偏角修正 (°)<div class="inrow"><input id="geoDec" type="number" inputmode="decimal" step="0.5" value="0"><button type="button" class="pm" data-neg="geoDec" aria-label="切換正負號">±</button></div></label>
   </div>
   <div id="geoOut"></div>
-  <p class="hint">「一鍵開地圖」用 Bing 地圖的衛星圖直接畫出發射點、落點與連線。手機指南針讀的是磁北，要填磁偏角（可用 NOAA 磁偏角計算器查當地數值，西偏為負）。座標取得方式：在 Google Maps 長按你的位置，上方會出現座標，點一下就能複製，再貼到這裡。填了目標座標，方位會直接用座標算（最準），指南針欄位會停用。沒填的話，指南針如果已經設定成「真北」，磁偏角填 0；如果讀的是磁北，就填當地磁偏角（西偏為負）。落點以平地計算，沒有考慮地形與側風造成的左右偏移。</p>
+  <p class="hint">「一鍵開地圖」用 Bing 地圖的衛星圖直接畫出發射點、落點與連線。手機指南針讀的是磁北，要填磁偏角（可用 NOAA 磁偏角計算器查當地數值，西偏為負）。座標取得方式：在 Google Maps 長按你的位置，上方會出現座標，點一下就能複製，再貼到這裡。指南針如果已經設定成「真北」，磁偏角填 0；如果讀的是磁北，就填當地磁偏角（西偏為負）。落點以平地計算，沒有考慮地形與側風造成的左右偏移。</p>
 </section>
 
 <section>
@@ -230,22 +227,6 @@ details p{font-size:13px;color:var(--muted);max-width:65ch}
       </div>
       <div id="hhRes" class="derived"></div>
       <p class="hint">注意：hop 全放掉不等於完全沒旋轉，BB 散佈會變大，建議用 10–20 m 對照、每組打 5 發以上。hop 鬆緊會改變初速：稍微加 hop 時 BB 被卡得較久、氣密較好，初速可能先升高，超過最佳點後摩擦變大才下降。計算用的初速請填調好 hop 之後量到的值，hop 放掉時的初速另外量。</p>
-    </div>
-    <div id="calBox">
-      <h3>多點實測擬合 Hop 升力</h3>
-      <p class="hint" style="margin:0 0 8px">同一個瞄準點、同一個 hop 設定，水平射擊不同距離，每個距離打 5 發取平均落點。空白的列不計。</p>
-      <div class="grid" id="calRows" style="grid-template-columns:1fr 1.6fr">
-        <span class="hint" style="margin:0">距離 (m)</span><span class="hint" style="margin:0">平均落點相對準心 (cm，高為正)</span>
-        <input id="calD1" type="number" inputmode="decimal" value="10" aria-label="第 1 點距離"><div class="inrow"><input id="calY1" type="number" inputmode="decimal" step="0.5" aria-label="第 1 點落點"><button type="button" class="pm" data-neg="calY1" aria-label="切換正負號">±</button></div>
-        <input id="calD2" type="number" inputmode="decimal" value="20" aria-label="第 2 點距離"><div class="inrow"><input id="calY2" type="number" inputmode="decimal" step="0.5" aria-label="第 2 點落點"><button type="button" class="pm" data-neg="calY2" aria-label="切換正負號">±</button></div>
-        <input id="calD3" type="number" inputmode="decimal" value="30" aria-label="第 3 點距離"><div class="inrow"><input id="calY3" type="number" inputmode="decimal" step="0.5" aria-label="第 3 點落點"><button type="button" class="pm" data-neg="calY3" aria-label="切換正負號">±</button></div>
-        <input id="calD4" type="number" inputmode="decimal" value="40" aria-label="第 4 點距離"><div class="inrow"><input id="calY4" type="number" inputmode="decimal" step="0.5" aria-label="第 4 點落點"><button type="button" class="pm" data-neg="calY4" aria-label="切換正負號">±</button></div>
-        <input id="calD5" type="number" inputmode="decimal" value="50" aria-label="第 5 點距離"><div class="inrow"><input id="calY5" type="number" inputmode="decimal" step="0.5" aria-label="第 5 點落點"><button type="button" class="pm" data-neg="calY5" aria-label="切換正負號">±</button></div>
-        <label class="full">衰減時間
-          <select id="fitTau"><option value="off">固定用上面的值</option><option value="on">一起擬合（需要 4 點以上）</option></select></label>
-        <div class="full inrow"><button type="button" class="btn" id="calGo">擬合並套用</button></div>
-      </div>
-      <div id="calOut" class="derived" style="white-space:pre-line"></div>
     </div>
   </div>
   <div class="derived" id="bulletInfo"></div>
@@ -328,7 +309,7 @@ details p{font-size:13px;color:var(--muted);max-width:65ch}
   <p>以 RK4 對時間積分二維彈道，重力 9.81 m/s²。Cd 模式採固定風阻係數的二次阻力，阻力加速度 = ½ρ·Cd·A·v²/m，與原 Excel 的 k·v²/m 相同（k = ½ρ·Cd·A）。BC 模式採 G1 標準阻力曲線，依馬赫數查表。</p>
   <p>鏡高：槍口放在瞄準鏡下方、垂直於視線的位置，距離等於鏡高；槍與鏡傾斜時兩者一起轉動。換算模式用 鏡高 = 間距 + 鏡筒外徑/2 + 槍管外徑/2。所有距離從 turret 起算；彈道從槍口出發，槍口位於視線前方「槍口偏移」處、視線下方鏡高處，所以歸零距離與目標距離都要從 turret 量。</p>
   <p>歸零：把視線放在你歸零時的角度，求出槍管相對視線的仰角，使彈道在歸零距離剛好穿過視線。打目標時，把同一個相對仰角套到目標的視線角上，再求出剛好命中所需的額外仰角，換算成格數。</p>
-  <p>Hop-up：圓球帶倒旋時產生垂直於速度方向的升力（Magnus 效應），升力加速度 = ½ρ·A·C<sub>L</sub>·v²/m，C<sub>L</sub> 依旋轉比 S = ωr/v 估算（小 S 時約 1.5·S，大 S 時趨近 0.4）。回轉速度依指數衰減。C<sub>L</sub> 公式與衰減時間都是估計值，最準的做法是用實測落點反推回轉速度，讓模型跟你的槍對上。</p>
+  <p>Hop-up：圓球帶倒旋時產生垂直於速度方向的升力（Magnus 效應），升力加速度 = ½ρ·A·C<sub>L</sub>·v²/m，C<sub>L</sub> 依旋轉比 S = ωr/v 估算（小 S 時約 1.5·S，大 S 時趨近 0.4）。回轉速度依指數衰減。C<sub>L</sub> 公式與衰減時間都是估計值，可以用「Hop 調整助手」的實測差值反推回轉速度，讓模型跟你的槍對上。</p>
   <p>落地危險判定以能量密度（動能 ÷ 子彈截面積）比對文獻門檻：人體皮膚穿透約 15 J/cm²（Sellier）；人眼 50% 眼球破裂風險約 3.55 J/cm²（Kennedy & Duma 2006）。較輕的眼傷（前房出血、角膜損傷）在更低能量就會發生，所以任何落點都不算安全。</p>
   <p>水平最遠距離：用命中目標時的實際槍管仰角，積分到子彈落到地面為止。地面在槍口下方（瞄準鏡離地高度 − 鏡高）；向下射擊且目標更低時，地面取目標高度。最大可能射程是在 5–50° 之間找出飛最遠的發射角。側風採 Didion 落後時間公式。</p>
   <p>子彈設定包含：輸入方式、Cd、口徑、BC、質量、初速。瞄準鏡設定包含：修正單位、每格值、鏡高、歸零距離與歸零視線角。用同一個名稱再存一次會覆蓋舊的。</p>
@@ -567,7 +548,7 @@ function render(){
   if(sphere&&mode==='bc')setMode('cd',true);
   $('modeBc').disabled=sphere||locked;
   $('hopBox').hidden=!sphere;
-  $('wRpm').hidden=$('wTau').hidden=$('calBox').hidden=$('hhBox').hidden=!hop;
+  $('wRpm').hidden=$('wTau').hidden=$('hhBox').hidden=!hop;
   const p=params(),sc=scope(),rt=reticle();
   $('wRCal').hidden=$('wRMag').hidden=!rt.sfp;
   $('airInfo').textContent=`空氣密度 ${f1(p.rho,3)} kg/m³ ・ 音速 ${f1(p.c,0)} m/s`;
@@ -708,13 +689,6 @@ function parseLatLng(s){
   if(!m)return null;const lat=+m[1],lng=+m[2];
   return Math.abs(lat)<=90&&Math.abs(lng)<=180?{lat,lng}:null;
 }
-// initial great-circle bearing (deg, true north) and distance (m) between two points
-function inverseGeo(a,b){
-  const Rm=6371008.8,p1=a.lat*DEG,p2=b.lat*DEG,dl=(b.lng-a.lng)*DEG;
-  const y=Math.sin(dl)*Math.cos(p2),x=Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl);
-  const h=Math.sin((p2-p1)/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;
-  return{brg:(Math.atan2(y,x)/DEG+360)%360,d:2*Rm*Math.asin(Math.sqrt(h))};
-}
 // great-circle destination from a point, bearing (deg) and distance (m)
 function destPoint(o,brg,d){
   const Rm=6371008.8,dd=d/Rm,th=brg*DEG,p1=o.lat*DEG,l1=o.lng*DEG;
@@ -724,14 +698,7 @@ function destPoint(o,brg,d){
 }
 function geoRender(){
   const out=$('geoOut');if(!out)return;
-  const o=parseLatLng($('geoPos').value),t=parseLatLng($('geoTgt').value);
-  // a target coordinate gives the true bearing directly; then the compass fields are not used
-  let b=num('geoBrg'),dec=num('geoDec')||0;
-  const ti=$('geoTgtInfo');
-  if(o&&t){const g=inverseGeo(o,t);b=g.brg;dec=0;$('geoBrg').disabled=$('geoDec').disabled=true;
-    ti.hidden=false;geoTgtD=g.d;const html=`依座標算出：方位 ${f1(g.brg,1)}°（真北）・地圖距離 ${f1(g.d)} m <button type="button" class="btn ghost" id="geoUseD" style="margin-left:6px;padding:4px 10px;font-size:13px">套用為目標距離</button>`;
-    if(ti.innerHTML!==html)ti.innerHTML=html;}
-  else{$('geoBrg').disabled=$('geoDec').disabled=false;ti.hidden=true;ti.innerHTML=''}
+  const o=parseLatLng($('geoPos').value),b=num('geoBrg'),dec=num('geoDec')||0;
   if(!o||!isFinite(b)){setGeo(`<p class="hint" style="margin:8px 0 0">填入位置和方位角後，這裡會算出落點座標和 Google Maps 連結。</p>`);return}
   if(!lastLand){setGeo('');return}
   const brg=((b+dec)%360+360)%360,fx=x=>x.toFixed(6);
@@ -749,8 +716,7 @@ function geoRender(){
     `<div class="georow"><div class="inrow"><button type="button" class="btn ghost" id="geoCsv" style="flex:1">下載落點檔（直線，匯入 Google 我的地圖）</button></div><div class="pstatus" id="geoCsvSt"></div></div>`);
 }
 // only replace the block when its content changes, so a tap on its buttons is not lost to a re-render
-var geoArgs=null,geoHtml='',geoTgtD=NaN;
-$('geoTgtInfo').addEventListener('click',e=>{if(e.target&&e.target.id==='geoUseD'&&isFinite(geoTgtD)){$('tgt').value=geoTgtD.toFixed(1);render()}});
+var geoArgs=null,geoHtml='';
 function setGeo(html){if(html!==geoHtml){geoHtml=html;$('geoOut').innerHTML=html}}
 $('geoOut').addEventListener('click',e=>{if(e.target&&e.target.id==='geoCsv'&&geoArgs){const a=geoArgs;geoCsv(a.o,a.brg,a.gr,a.mr)}});
 // one-tap map: Bing Maps draws points and straight lines from the link itself (sp=point…~polyline…), on aerial imagery
@@ -999,7 +965,7 @@ async function initCloud(){
     },()=>{});
   }catch(e){}
 }
-const IDS=['geoPos','geoTgt','geoBrg','geoDec','scopeH','shape','hopOn','rpm','spinTau','hhV0','hhD','hhGoal','hhY','fitTau','calD1','calY1','calD2','calY2','calD3','calY3','calD4','calY4','calD5','calY5','cd','cal','bc','mass','massU','v0','v0U','zero','zAng','sh','dTube','dBar','gap','mOff','sUnit','click','clickCustom','rUnit','rFP','rLayout','rSub','rDot','rCal','rMag','temp','press','wind','tgt','ang','r0','r1','rs'];
+const IDS=['geoPos','geoBrg','geoDec','scopeH','shape','hopOn','rpm','spinTau','hhV0','hhD','hhGoal','hhY','cd','cal','bc','mass','massU','v0','v0U','zero','zAng','sh','dTube','dBar','gap','mOff','sUnit','click','clickCustom','rUnit','rFP','rLayout','rSub','rDot','rCal','rMag','temp','press','wind','tgt','ang','r0','r1','rs'];
 function save(){try{const o={mode,hMode};IDS.forEach(i=>o[i]=$(i).value);localStorage.setItem('airgunBal',JSON.stringify(o))}catch(e){}}
 function load(){
   let o=null;try{o=JSON.parse(localStorage.getItem('airgunBal'))}catch(e){}
@@ -1017,68 +983,6 @@ document.querySelectorAll('.pm').forEach(b=>b.addEventListener('click',e=>{
   e.preventDefault();const el=$(b.dataset.neg),v=parseFloat(el.value);
   if(isFinite(v)&&v!==0){el.value=String(-v);render()}
 }));
-// multi-point fit of hop spin (and optionally spin decay) to measured impacts on a flat shot.
-// with >=2 points the bore-to-sight angle is fitted too, so an imperfect zero does not bias the spin.
-function hopFit(){
-  const p=params(),pts=[];p.dt=6e-4;
-  for(let i=1;i<=5;i++){const D=num('calD'+i),Y=num('calY'+i);if(D>0&&isFinite(Y))pts.push({D,Y:Y/100})}
-  pts.sort((a,b)=>a.D-b.D);
-  if(!p.ok||!pts.length)return{err:'請至少填一組距離與落點，並確認其他欄位都有效。'};
-  const Ds=pts.map(q=>q.D),wantTau=$('fitTau').value==='on';
-  if(wantTau&&pts.length<4)return{err:'一起擬合衰減時間需要至少 4 個距離。'};
-  const model=(rpm,tau)=>{
-    p.w0=rpm*2*Math.PI/60;p.tau=tau;let d;
-    if(pts.length>=2){
-      d=0;
-      for(let it=0;it<3;it++){
-        const r=fly(p,d,0,Ds);if(r.length<Ds.length)return{sse:Infinity};
-        let a=0,b=0;r.forEach((q,i)=>{a+=q.s*(pts[i].Y-q.n);b+=q.s*q.s});d+=a/b;
-      }
-    }else{d=solveDelta(p,p.zAng,p.zero,0.005);if(!isFinite(d))return{sse:Infinity}}
-    const r=fly(p,d,0,Ds);if(r.length<Ds.length)return{sse:Infinity};
-    const res=r.map((q,i)=>pts[i].Y-q.n);
-    return{sse:res.reduce((s,x)=>s+x*x,0),res,d,rpm,tau};
-  };
-  const bestRpm=tau=>{
-    let best={sse:Infinity};
-    for(let rpm=0;rpm<=60000;rpm+=2000){const m=model(rpm,tau);if(m.sse<best.sse)best=m}
-    if(!isFinite(best.sse))return best;
-    let a=Math.max(0,best.rpm-2000),b=best.rpm+2000;const g=(Math.sqrt(5)-1)/2;
-    for(let i=0;i<16;i++){const c=b-g*(b-a),e=a+g*(b-a);if(model(c,tau).sse<model(e,tau).sse)b=e;else a=c}
-    const m=model((a+b)/2,tau);return m.sse<best.sse?m:best;
-  };
-  let best;
-  if(wantTau){best={sse:Infinity};for(const tau of [0.3,0.5,0.75,1,1.5,2,3,5,8,15]){const m=bestRpm(tau);if(m.sse<best.sse)best=m}}
-  else best=bestRpm(num('spinTau'));
-  if(!isFinite(best.sse))return{err:'找不到合理的回轉速度。請確認落點正負號、初速和口徑。'};
-  // physics summary at the muzzle and along the path
-  p.w0=best.rpm*2*Math.PI/60;p.tau=best.tau;p.dt=2e-4;
-  const S=p.w0*p.r/p.v0,acc=p.liftK*liftCL(S)*p.v0*p.v0,F=acc*p.m*1000;
-  const rms=Math.sqrt(best.sse/pts.length)*100;
-  // where the fitted trajectory crosses the sight line (= actual zero points)
-  const grid=[];for(let s=1;s<=Math.max(80,Ds[Ds.length-1]*1.5);s+=0.5)grid.push(s);
-  const tr=fly(p,best.d,0,grid),cross=[];
-  for(let i=1;i<tr.length;i++)if(tr[i-1].n*tr[i].n<0)cross.push(tr[i-1].s+(tr[i].s-tr[i-1].s)*tr[i-1].n/(tr[i-1].n-tr[i].n));
-  return{best,pts,S,F,lw:acc/G,rms,cross,dof:pts.length-(pts.length>=2?1:0)-1-(wantTau?1:0)};
-}
-$('calGo').onclick=()=>{
-  const out=$('calOut');out.textContent='計算中…';
-  setTimeout(()=>{
-    const r=hopFit();
-    if(r.err){out.textContent=r.err;return}
-    const b=r.best,rpm=Math.round(b.rpm/100)*100;
-    $('rpm').value=rpm;if($('fitTau').value==='on')$('spinTau').value=b.tau;
-    const lines=[
-      `回轉速度 ${rpm.toLocaleString()} rpm${$('fitTau').value==='on'?`，衰減時間 ${b.tau} s`:''}（已套用）`,
-      `槍口升力 ${f1(r.F,2)} mN ＝ 重力的 ${f1(r.lw,2)} 倍（旋轉比 S = ${f1(r.S,4)}）`,
-      `各點殘差：${r.pts.map((q,i)=>`${q.D} m ${sgn(b.res[i]*100)} cm`).join('，')}`,
-      `RMS ${f1(r.rms,1)} cm${r.dof>0?(r.rms<2?'：吻合良好':r.rms<5?'：大致吻合':'：吻合不佳，請檢查初速、Cd 或量測'):'（點數不足以檢驗，結果只是剛好通過）'}`
-    ];
-    if(r.pts.length>=2&&r.cross.length)lines.push(`依實測反推，彈道與視線交於 ${r.cross.map(x=>f1(x)+' m').join('、')}`);
-    out.textContent=lines.join('\n');
-    render();
-  },20);
-};
 // ---------- backup / restore / baked download ----------
 function bk(msg){$('bkStatus').textContent=msg}
 $('bkCopy').onclick=()=>{
@@ -1138,7 +1042,7 @@ function pickedName(kind){const s=$('pick-'+kind);if(!s.value)return'';const o=s
 function lockTargets(){
   const ids=PKEYS.gun.filter(k=>k!=='mode'&&k!=='hMode');
   const els=ids.map($);
-  ['modeCd','modeBc','hDirect','hMeasure','calGo','hhGo','pick-bullet','pname-bullet','psave-bullet','pdel-bullet','pick-scope','pname-scope','psave-scope','pdel-scope'].forEach(i=>els.push($(i)));
+  ['modeCd','modeBc','hDirect','hMeasure','hhGo','pick-bullet','pname-bullet','psave-bullet','pdel-bullet','pick-scope','pname-scope','psave-scope','pdel-scope'].forEach(i=>els.push($(i)));
   document.querySelectorAll('.pm[data-neg="zAng"]').forEach(e=>els.push(e));
   return els.filter(Boolean);
 }
