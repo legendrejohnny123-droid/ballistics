@@ -162,8 +162,12 @@ details p{font-size:13px;color:var(--muted);max-width:65ch}
     <label>氣壓 (hPa)<input id="press" type="number" inputmode="decimal" step="1" value="1013"></label>
     <label class="full">瞄準鏡離地高度 (cm)
       <input id="scopeH" type="number" inputmode="decimal" step="5" value="100"></label>
+    <label>測地面斜距 (m)<input id="hgtD" type="number" inputmode="decimal" step="0.5" placeholder="測距儀"></label>
+    <label>測地面俯角 (°)<input id="hgtA" type="number" inputmode="decimal" step="0.5" placeholder="測距儀"></label>
+    <div class="full derived" id="hgtOut">用測距儀對準落點附近的地面，輸入斜距和角度，會自動換算離地高度並填入上面的欄位（這組數據跟目標的距離、角度分開）。</div>
   </div>
   <div class="derived" id="airInfo"></div>
+  <p class="hint">離地高度 = 斜距 × sin(俯角)，角度正負都可以。測距時把測距儀拿在瞄準鏡的高度；地面若不平，對準子彈大概會落下的那片地面。瞄準鏡離地高度決定子彈飛過目標後還能飛多遠，以及「最大可能射程」。從高處往下打時，填你離落點地面的高度：台灣一層樓約 3–3.3 m，例如 5 樓陽台約 (5−1)×3.2 + 1 m 架槍高 ≈ 14 m，就填 1400。</p>
 </section>
 
 <section>
@@ -316,7 +320,7 @@ details p{font-size:13px;color:var(--muted);max-width:65ch}
 </details>
 </div>
 
-<script id="bakedPresets" type="application/json">{"gun": [{"name": "Pds4", "v": {"_bullet": "神秘原廠彈", "_scope": "進軍 3-15x FFP（1/4 MOA 鈕・分劃 mil 待實測）", "bc": "0.025", "cal": "5.5", "cd": "0.35", "click": "0.25", "clickCustom": "0.1", "dBar": "22", "dTube": "30", "gap": "20", "hMode": "direct", "hopOn": "off", "mOff": "25", "mass": "1.52", "massU": "g", "mode": "cd", "rCal": "15", "rDot": "1", "rFP": "ffp", "rLayout": "march", "rMag": "10", "rSub": "0.5", "rUnit": "mrad", "rpm": "5000", "sUnit": "moa", "sh": "65", "shape": "pellet", "spinTau": "3", "v0": "205", "v0U": "ms", "zAng": "-0.4", "zero": "24.6"}}, {"name": "Tanaka M700", "v": {"_bullet": "Airsoft 6mm .48(hop開）", "_scope": "", "bc": "0.025", "cal": "5.95", "cd": "0.47", "click": "0.25", "clickCustom": "0.1", "dBar": "22", "dTube": "30", "gap": "20", "hMode": "direct", "hhV0": "", "hopOn": "on", "mOff": "70", "mass": "0.48", "massU": "g", "mode": "cd", "rCal": "15", "rDot": "1", "rFP": "ffp", "rLayout": "march", "rMag": "10", "rSub": "0.5", "rUnit": "mrad", "rpm": "3521", "sUnit": "moa", "sh": "50", "shape": "sphere", "spinTau": "3", "v0": "178", "v0U": "ms", "zAng": "-0.4", "zero": "10"}}, {"name": "VKS silverback", "v": {"_bullet": "Airsoft 6mm .43(hop開）", "_scope": "進軍 3-15x FFP（1/4 MOA 鈕・分劃 mil 待實測）", "bc": "0.025", "cal": "5.95", "cd": "0.47", "click": "0.25", "clickCustom": "0.1", "dBar": "22", "dTube": "30", "gap": "20", "hMode": "direct", "hhV0": "", "hopOn": "on", "mOff": "25", "mass": "0.43", "massU": "g", "mode": "cd", "rCal": "15", "rDot": "1", "rFP": "ffp", "rLayout": "march", "rMag": "10", "rSub": "0.5", "rUnit": "mrad", "rpm": "4180", "sUnit": "moa", "sh": "65", "shape": "sphere", "spinTau": "3", "v0": "136", "v0U": "ms", "zAng": "-0.4", "zero": "10"}}], "bullet": [{"name": "神秘原廠彈", "v": {"bc": "0.025", "cal": "5.5", "cd": "0.35", "mass": "1.52", "massU": "g", "mode": "cd", "v0": "135", "v0U": "ms"}}, {"name": "0.5GBB", "v": {"bc": "0.039", "cal": "5.95", "cd": "0.47", "hopOn": "on", "mass": "0.5", "massU": "g", "mode": "cd", "rpm": "4400", "shape": "sphere", "spinTau": "3", "v0": "173", "v0U": "ms"}}, {"name": "Airsoft 6mm .48(hop開）", "v": {"bc": "0.025", "cal": "5.95", "cd": "0.47", "hhV0": "", "hopOn": "on", "mass": "0.48", "massU": "g", "mode": "cd", "rpm": "5000", "shape": "sphere", "spinTau": "3", "v0": "205", "v0U": "ms"}}, {"name": "Airsoft 6mm .43(hop開）", "v": {"bc": "0.025", "cal": "5.95", "cd": "0.47", "hhV0": "", "hopOn": "off", "mass": "0.43", "massU": "g", "mode": "cd", "rpm": "5000", "shape": "sphere", "spinTau": "3", "v0": "205", "v0U": "ms"}}], "scope": [], "lastGun": {"name": "VKS silverback", "locked": true}}</script>
+<script id="bakedPresets" type="application/json">{"gun": [{"name": "Pds4", "v": {"_bullet": "神秘原廠彈", "_scope": "進軍 3-15x FFP（1/4 MOA 鈕・分劃 mil 待實測）", "bc": "0.025", "cal": "5.5", "cd": "0.35", "click": "0.25", "clickCustom": "0.1", "dBar": "22", "dTube": "30", "gap": "20", "hMode": "direct", "hopOn": "off", "mOff": "25", "mass": "1.52", "massU": "g", "mode": "cd", "rCal": "15", "rDot": "1", "rFP": "ffp", "rLayout": "march", "rMag": "10", "rSub": "0.5", "rUnit": "mrad", "rpm": "5000", "sUnit": "moa", "sh": "65", "shape": "pellet", "spinTau": "3", "v0": "205", "v0U": "ms", "zAng": "-0.4", "zero": "24.6"}}, {"name": "Tanaka M700", "v": {"_bullet": "Airsoft 6mm .48(hop開）", "_scope": "", "bc": "0.025", "cal": "5.95", "cd": "0.47", "click": "0.25", "clickCustom": "0.1", "dBar": "22", "dTube": "30", "gap": "20", "hMode": "direct", "hhV0": "", "hopOn": "on", "mOff": "70", "mass": "0.48", "massU": "g", "mode": "cd", "rCal": "15", "rDot": "1", "rFP": "ffp", "rLayout": "march", "rMag": "10", "rSub": "0.5", "rUnit": "mrad", "rpm": "3521", "sUnit": "moa", "sh": "50", "shape": "sphere", "spinTau": "3", "v0": "178", "v0U": "ms", "zAng": "-0.4", "zero": "10"}}, {"name": "VKS silverback", "v": {"_bullet": "Airsoft 6mm .43(hop開）", "_scope": "進軍 3-15x FFP（1/4 MOA 鈕・分劃 mil 待實測）", "bc": "0.025", "cal": "5.95", "cd": "0.47", "click": "0.25", "clickCustom": "0.1", "dBar": "22", "dTube": "30", "gap": "20", "hMode": "direct", "hhV0": "", "hopOn": "on", "mOff": "25", "mass": "0.43", "massU": "g", "mode": "cd", "rCal": "15", "rDot": "1", "rFP": "ffp", "rLayout": "march", "rMag": "10", "rSub": "0.5", "rUnit": "mrad", "rpm": "4180", "sUnit": "moa", "sh": "65", "shape": "sphere", "spinTau": "3", "v0": "136", "v0U": "ms", "zAng": "-0.4", "zero": "10"}}, {"name": "MK1", "v": {"_bullet": "Airsoft 6mm .43(hop開）", "_scope": "進軍 3-15x FFP（1/4 MOA 鈕・分劃 mil 待實測）", "bc": "0.025", "cal": "5.95", "cd": "0.47", "click": "0.25", "clickCustom": "0.1", "dBar": "22", "dTube": "30", "gap": "20", "hMode": "direct", "hhV0": "", "hopOn": "off", "mOff": "25", "mass": "0.43", "massU": "g", "mode": "cd", "rCal": "15", "rDot": "1", "rFP": "ffp", "rLayout": "march", "rMag": "10", "rSub": "0.5", "rUnit": "mrad", "rpm": "5000", "sUnit": "moa", "sh": "20", "shape": "sphere", "spinTau": "3", "v0": "120", "v0U": "ms", "zAng": "-0.4", "zero": "24.6"}}], "bullet": [{"name": "神秘原廠彈", "v": {"bc": "0.025", "cal": "5.5", "cd": "0.35", "mass": "1.52", "massU": "g", "mode": "cd", "v0": "135", "v0U": "ms"}}, {"name": "0.5GBB", "v": {"bc": "0.039", "cal": "5.95", "cd": "0.47", "hopOn": "on", "mass": "0.5", "massU": "g", "mode": "cd", "rpm": "4400", "shape": "sphere", "spinTau": "3", "v0": "173", "v0U": "ms"}}, {"name": "Airsoft 6mm .48(hop開）", "v": {"bc": "0.025", "cal": "5.95", "cd": "0.47", "hhV0": "", "hopOn": "on", "mass": "0.48", "massU": "g", "mode": "cd", "rpm": "5000", "shape": "sphere", "spinTau": "3", "v0": "205", "v0U": "ms"}}, {"name": "Airsoft 6mm .43(hop開）", "v": {"bc": "0.025", "cal": "5.95", "cd": "0.47", "hhV0": "", "hopOn": "off", "mass": "0.43", "massU": "g", "mode": "cd", "rpm": "5000", "shape": "sphere", "spinTau": "3", "v0": "205", "v0U": "ms"}}], "scope": [], "lastGun": {"name": "Pds4", "locked": true}}</script>
 <script>
 const PAGE_SRC=document.body?document.body.innerHTML:'';
 const $=id=>document.getElementById(id);
@@ -965,7 +969,7 @@ async function initCloud(){
     },()=>{});
   }catch(e){}
 }
-const IDS=['geoPos','geoBrg','geoDec','scopeH','shape','hopOn','rpm','spinTau','hhV0','hhD','hhGoal','hhY','cd','cal','bc','mass','massU','v0','v0U','zero','zAng','sh','dTube','dBar','gap','mOff','sUnit','click','clickCustom','rUnit','rFP','rLayout','rSub','rDot','rCal','rMag','temp','press','wind','tgt','ang','r0','r1','rs'];
+const IDS=['geoPos','geoBrg','geoDec','scopeH','hgtD','hgtA','shape','hopOn','rpm','spinTau','hhV0','hhD','hhGoal','hhY','cd','cal','bc','mass','massU','v0','v0U','zero','zAng','sh','dTube','dBar','gap','mOff','sUnit','click','clickCustom','rUnit','rFP','rLayout','rSub','rDot','rCal','rMag','temp','press','wind','tgt','ang','r0','r1','rs'];
 function save(){try{const o={mode,hMode};IDS.forEach(i=>o[i]=$(i).value);localStorage.setItem('airgunBal',JSON.stringify(o))}catch(e){}}
 function load(){
   let o=null;try{o=JSON.parse(localStorage.getItem('airgunBal'))}catch(e){}
@@ -1029,6 +1033,15 @@ $('hhGo').onclick=()=>{
   out.textContent=`反推：${rpm.toLocaleString()} rpm（已套用）。${isFinite(rc)?(rpm>rc?`高於臨界 ${Math.round(rc).toLocaleString()} rpm，會上飄。`:`低於臨界 ${Math.round(rc).toLocaleString()} rpm，不會上飄。`):''}`;
   render();
 };
+// own height above ground from rangefinder slant distance + angle to the ground (separate from target data)
+function hgtCalc(){
+  const d=num('hgtD'),a=num('hgtA'),out=$('hgtOut');
+  if(!isFinite(d)||!isFinite(a)||d<=0)return;
+  const h=d*Math.sin(Math.abs(a)*Math.PI/180);
+  $('scopeH').value=Math.round(h*100);
+  out.textContent=`離地高度 ${h.toFixed(1)} m（斜距 ${d} m × sin ${Math.abs(a)}°），已填入瞄準鏡離地高度 ${Math.round(h*100)} cm`;
+}
+['hgtD','hgtA'].forEach(id=>$(id).addEventListener('input',hgtCalc));
 document.addEventListener('input',render);document.addEventListener('change',render);
 // ---------- gun: one record holding bullet + scope + zero; selecting it locks those fields ----------
 var curGun=null,locked=false;
